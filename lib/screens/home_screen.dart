@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'add_transaction_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List transaction = [];
+
+  int totalSaldo = 0;
+  int totalMasuk = 0;
+  int totalKeluar = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +41,11 @@ class HomeScreen extends StatelessWidget {
             ),
 
             child: Column(
-              children: const [
+              children: [
                 Text("Total Saldo", style: TextStyle(color: Colors.white70)),
                 SizedBox(height: 10),
                 Text(
-                  "Rp 5.000.000",
+                  "Rp $totalSaldo",
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -52,11 +63,15 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: _cardInfo("Pemasukan", "Rp 500.000", Colors.green),
+                  child: _cardInfo("Pemasukan", "Rp $totalMasuk", Colors.green),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: _cardInfo("Pengeluaran", "Rp 250.000", Colors.red),
+                  child: _cardInfo(
+                    "Pengeluaran",
+                    "Rp $totalKeluar",
+                    Colors.red,
+                  ),
                 ),
               ],
             ),
@@ -66,25 +81,44 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              children: const [
-                Text(
+              children: [
+                const Text(
                   "Transaksi Terbaru",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
 
-                ListTile(
-                  leading: Icon(Icons.arrow_downward, color: Colors.green),
-                  title: Text("Uang Saku"),
-                  subtitle: Text("Hari Ini"),
-                  trailing: Text("+Rp 100.000"),
-                ),
-                ListTile(
-                  leading: Icon(Icons.arrow_upward, color: Colors.red),
-                  title: Text("Jajan"),
-                  subtitle: Text("Hari Ini"),
-                  trailing: Text("-Rp 20.000"),
-                ),
+                const SizedBox(height: 10),
+
+                ...transaction.map((trx) {
+                  bool isMasuk = trx["Type"] == "Pemasukan";
+
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: isMasuk
+                          ? Colors.green.shade100
+                          : Colors.red.shade100,
+
+                      child: Icon(
+                        isMasuk ? Icons.arrow_downward : Icons.arrow_upward,
+
+                        color: isMasuk ? Colors.green : Colors.red,
+                      ),
+                    ),
+
+                    title: Text(trx["title"]),
+
+                    subtitle: Text(trx["type"]),
+
+                    trailing: Text(
+                      "${isMasuk ? '+' : '-'}Rp ${trx["amount"]}",
+                      style: TextStyle(
+                        color: isMasuk ? Colors.green : Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  );
+                }).toList(),
               ],
             ),
           ),
@@ -103,7 +137,19 @@ class HomeScreen extends StatelessWidget {
           );
 
           if (result != null) {
-            print(result);
+            setState(() {
+              transaction.add(result);
+
+              int amount = int.parse(result["amount"]);
+
+              if (result["type"] == "Pemasukan") {
+                totalSaldo += amount;
+                totalMasuk += amount;
+              } else {
+                totalSaldo -= amount;
+                totalKeluar += amount;
+              }
+            });
           }
         },
       ),

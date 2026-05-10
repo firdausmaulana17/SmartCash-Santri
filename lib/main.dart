@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() {
   runApp(const SmartCashSantriApp());
@@ -14,7 +14,7 @@ class SmartCashSantriApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'SmartCash Santri',
       theme: ThemeData(primarySwatch: Colors.green),
-      home: const SplashScreen(),
+      home: const LoginScreen(),
     );
   }
 }
