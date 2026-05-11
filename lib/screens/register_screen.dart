@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_services.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,6 +18,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController confirmController = TextEditingController();
+
+  final AuthServices authServices = AuthServices();
 
   bool isHidden = true;
   bool isHidden2 = true;
@@ -102,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return "Email wajib diisi";
                     }
 
-                    if (value.contains("@")) {
+                    if (!value.contains("@")) {
                       return "Email tidak valid";
                     }
 
@@ -134,6 +137,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                   validator: (value) {
                     if (value == null || value.isEmpty) {
+                      return "Pasword wajib diisi";
+                    }
+
+                    if (value.length < 6) {
                       return "Pasword minimal 6 karakter";
                     }
 
@@ -227,13 +234,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
 
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Register berhasil")),
+                        String? error = await authServices.register(
+                          email: emailController.text,
+                          password: passwordController.text,
                         );
 
-                        Navigator.pop(context);
+                        if (error == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Register berhasil")),
+                          );
+
+                          Navigator.pop(context);
+                        } else {
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(error)));
+                        }
                       }
                     },
 
@@ -243,7 +261,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
               ],
             ),

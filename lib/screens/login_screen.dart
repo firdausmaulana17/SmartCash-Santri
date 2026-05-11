@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smartcash_santri/screens/register_screen.dart';
 import 'home_screen.dart';
+import '../services/auth_services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +16,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
+
+  final AuthServices authServices = AuthServices();
 
   bool isHidden = true;
 
@@ -91,6 +94,49 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
 
+                  const SizedBox(height: 20),
+
+                  //password
+                  TextFormField(
+                    controller: passwordController,
+                    obscureText: isHidden,
+
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Pasword wajib diisi";
+                      }
+
+                      return null;
+                    },
+
+                    decoration: InputDecoration(
+                      hintText: "Password",
+
+                      prefixIcon: const Icon(Icons.lock),
+
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isHidden ? Icons.visibility_off : Icons.visibility,
+                        ),
+
+                        onPressed: () {
+                          setState(() {
+                            isHidden = !isHidden;
+                          });
+                        },
+                      ),
+
+                      filled: true,
+                      fillColor: Colors.white,
+
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+
                   const SizedBox(height: 30),
 
                   //button login
@@ -107,15 +153,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
 
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushReplacement(
-                            context,
-
-                            MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
-                            ),
+                          String? error = await authServices.login(
+                            email: emailController.text,
+                            password: passwordController.text,
                           );
+
+                          if (error == null) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomeScreen(),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(SnackBar(content: Text(error)));
+                          }
                         }
                       },
 
