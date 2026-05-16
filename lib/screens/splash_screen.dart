@@ -1,147 +1,350 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'login_screen.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8EE),
+      backgroundColor: const Color(0xFFF8F9FA),
+
       body: Stack(
         children: [
           Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Image.asset(
-              'assets/images/bg_masjid.png',
-              fit: BoxFit.cover,
-              height: 320,
+            top: -80,
+            right: -80,
+            child: Container(
+              width: 220,
+              height: 220,
+              decoration: BoxDecoration(
+                color: Colors.green.withOpacity(0.15),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+
+          Positioned(
+            bottom: -100,
+            left: -100,
+            child: Container(
+              width: 280,
+              height: 280,
+              decoration: BoxDecoration(
+                color: Colors.green.withOpacity(0.10),
+                shape: BoxShape.circle,
+              ),
             ),
           ),
 
           SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 50),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
 
-                Center(
-                  child: Image.asset('assets/images/logo.png', width: 190),
-                ),
-
-                const SizedBox(height: 20),
-
-                const Text(
-                  "SmartCash",
-                  style: TextStyle(
-                    fontSize: 42,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF0B4F33),
-                  ),
-                ),
-
-                const Text(
-                  "Santri",
-                  style: TextStyle(
-                    fontSize: 34,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF5BAF4C),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                const Text(
-                  "Catatan Keuangan Harian",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, color: Colors.black87),
-                ),
-
-                const SizedBox(height: 6),
-
-                const Text(
-                  "Untuk Santri",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, color: Colors.black87),
-                ),
-
-                const SizedBox(height: 25),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80),
-                  child: Row(
+              child: Column(
+                children: [
+                  Column(
                     children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.green.shade300,
-                          thickness: 1,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 55,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 10,
+                                ),
+                              ],
+                            ),
+
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/images/logo.png"),
+                            ),
+                          ),
+
+                          const SizedBox(width: 12),
+
+                          const Text(
+                            "SmartCash",
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF004532),
+                            ),
+                          ),
+                        ],
                       ),
 
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Icon(Icons.star, size: 18, color: Colors.green),
-                      ),
+                      const SizedBox(height: 8),
 
-                      Expanded(
-                        child: Divider(
-                          color: Colors.green.shade300,
-                          thickness: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const Spacer(),
-
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 60),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Kelola Keuangan dengan Bijak",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-
-                      SizedBox(height: 10),
-
-                      Text(
-                        "Hidup Lebih Berkah",
-                        textAlign: TextAlign.center,
+                      const Text(
+                        "PONDOK DIGITAL ECOSYSTEM",
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
+                          letterSpacing: 2,
+                          fontSize: 12,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
+
+                  const Spacer(),
+
+                  Container(
+                    width: double.infinity,
+                    height: 350,
+
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+
+                      boxShadow: const [
+                        BoxShadow(color: Colors.black12, blurRadius: 20),
+                      ],
+                    ),
+
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+
+                          child: Image.asset(
+                            "assets/images/logo.png",
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
+                        ),
+
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+
+                              colors: [
+                                Colors.black.withOpacity(0.1),
+                                Colors.black.withOpacity(0.4),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        Positioned(
+                          bottom: 20,
+                          right: 20,
+
+                          child: Container(
+                            padding: const EdgeInsets.all(14),
+
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.85),
+
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+
+                              children: const [
+                                Text(
+                                  "Tabungan Aktif",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+
+                                SizedBox(height: 5),
+
+                                Text(
+                                  "Rp 1.250.000",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF004532),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  const Text(
+                    "Kelola Keuangan Santri\nLebih Aman",
+                    textAlign: TextAlign.center,
+
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF191C1D),
+                    ),
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  const Text(
+                    "Ekosistem digital terpadu untuk\nkemandirian finansial dan berkah\ndi lingkungan pondok",
+                    textAlign: TextAlign.center,
+
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black54,
+                      height: 1.5,
+                    ),
+                  ),
+
+                  const Spacer(),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+
+                    children: [
+                      Container(
+                        width: 30,
+                        height: 8,
+
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF004532),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+
+                      const SizedBox(width: 6),
+
+                      _dot(),
+                      _dot(),
+                    ],
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  //button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 58,
+
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF004532),
+
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        );
+                      },
+
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+                        children: [
+                          Text(
+                            "Mulai Sekarang",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          SizedBox(width: 8),
+
+                          Icon(Icons.arrow_forward, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    },
+
+                    child: const Text(
+                      "Sudah punya akun? Masuk",
+                      style: TextStyle(
+                        color: Color(0xFF004532),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  //footer
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+
+                    children: [
+                      Icon(Icons.security, size: 16, color: Colors.black38),
+
+                      SizedBox(width: 5),
+
+                      Text(
+                        "Secure SSL",
+                        style: TextStyle(fontSize: 11, color: Colors.black38),
+                      ),
+
+                      SizedBox(width: 20),
+
+                      Icon(Icons.shield, size: 16, color: Colors.black38),
+
+                      SizedBox(width: 5),
+
+                      Text(
+                        "Syariah Compliance",
+                        style: TextStyle(fontSize: 11, color: Colors.black38),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _dot() {
+    return Container(
+      width: 8,
+      height: 8,
+
+      decoration: BoxDecoration(
+        color: Colors.grey.shade400,
+        shape: BoxShape.circle,
       ),
     );
   }
