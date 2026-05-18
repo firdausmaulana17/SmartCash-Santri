@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'screens/login_screen.dart';
+import 'screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +18,12 @@ class SmartCashSantriApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       title: 'SmartCash Santri',
+
       theme: ThemeData(primarySwatch: Colors.green),
-      home: const LoginScreen(),
+
+      home: const SplashScreen(),
     );
   }
 }

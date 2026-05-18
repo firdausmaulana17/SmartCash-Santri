@@ -24,184 +24,398 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F8EF),
+      backgroundColor: const Color(0xFFF8F9FA),
 
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
 
-            child: Form(
-              key: _formKey,
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
 
-              child: Column(
+              //logo
+              Column(
                 children: [
-                  const SizedBox(height: 30),
+                  SizedBox(
+                    width: 100,
+                    height: 100,
 
-                  //logo
-                  Image.asset("assets/images/logo.png", width: 140),
+                    child: Image.asset("assets/images/logo.png"),
+                  ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
-                  //title
                   const Text(
                     "SmartCash Santri",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF0D5C3B),
+                      color: Color(0xFF004532),
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
 
                   const Text(
-                    "Kelola Keuangan Santri Dengan Bijak",
+                    "Kelola keuangan pesantren\ndengan disiplin dan berkah",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
+
+                    style: TextStyle(fontSize: 15, color: Colors.black54),
                   ),
+                ],
+              ),
 
-                  const SizedBox(height: 40),
+              const SizedBox(height: 40),
 
-                  //email
-                  TextFormField(
-                    controller: emailController,
+              //login
+              Container(
+                padding: const EdgeInsets.all(24),
 
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Email Wajib diisi";
-                      }
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
 
-                      if (!value.contains("@")) {
-                        return "Format email tidak valid";
-                      }
+                  boxShadow: const [
+                    BoxShadow(color: Colors.black12, blurRadius: 15),
+                  ],
+                ),
 
-                      return null;
-                    },
+                child: Form(
+                  key: _formKey,
 
-                    decoration: InputDecoration(
-                      hintText: "Email",
-                      prefixIcon: const Icon(Icons.email),
+                  child: Column(
+                    children: [
+                      //email
+                      TextFormField(
+                        controller: emailController,
 
-                      filled: true,
-                      fillColor: Colors.white,
-
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  //password
-                  TextFormField(
-                    controller: passwordController,
-                    obscureText: isHidden,
-
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Pasword wajib diisi";
-                      }
-
-                      return null;
-                    },
-
-                    decoration: InputDecoration(
-                      hintText: "Password",
-
-                      prefixIcon: const Icon(Icons.lock),
-
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          isHidden ? Icons.visibility_off : Icons.visibility,
-                        ),
-
-                        onPressed: () {
-                          setState(() {
-                            isHidden = !isHidden;
-                          });
-                        },
-                      ),
-
-                      filled: true,
-                      fillColor: Colors.white,
-
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  //button login
-                  SizedBox(
-                    width: double.infinity,
-                    height: 55,
-
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0D5C3B),
-
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          String? error = await authServices.login(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          );
-
-                          if (error == null) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(
-                              context,
-                            ).showSnackBar(SnackBar(content: Text(error)));
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Email wajib diisi";
                           }
-                        }
-                      },
 
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+                          if (!value.contains("@")) {
+                            return "Format email tidak valid";
+                          }
+
+                          return null;
+                        },
+
+                        decoration: InputDecoration(
+                          labelText: "Email",
+
+                          hintText: "contoh@gmail.com",
+
+                          prefixIcon: const Icon(Icons.email),
+
+                          filled: true,
+                          fillColor: Colors.grey.shade100,
+
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
 
-                  const SizedBox(height: 20),
+                      const SizedBox(height: 24),
+
+                      //password
+                      TextFormField(
+                        controller: passwordController,
+                        obscureText: isHidden,
+
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Password wajib diisi";
+                          }
+
+                          if (value.length < 6) {
+                            return "Password minimal 6 karakter";
+                          }
+
+                          return null;
+                        },
+
+                        decoration: InputDecoration(
+                          labelText: "Password",
+
+                          hintText: "••••••",
+
+                          prefixIcon: const Icon(Icons.lock),
+
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isHidden
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+
+                            onPressed: () {
+                              setState(() {
+                                isHidden = !isHidden;
+                              });
+                            },
+                          ),
+
+                          filled: true,
+                          fillColor: Colors.grey.shade100,
+
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      Align(
+                        alignment: Alignment.centerRight,
+
+                        child: TextButton(
+                          onPressed: () {},
+
+                          child: const Text(
+                            "Lupa Password",
+                            style: TextStyle(color: Color(0xFF004532)),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      //button login
+                      SizedBox(
+                        width: double.infinity,
+                        height: 58,
+
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF004532),
+
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadiusGeometry.circular(18),
+                            ),
+                          ),
+
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              String? error = await authServices.login(
+                                email: emailController.text,
+
+                                password: passwordController.text,
+                              );
+
+                              if (error == null) {
+                                Navigator.pushReplacement(
+                                  context,
+
+                                  MaterialPageRoute(
+                                    builder: (context) => const HomeScreen(),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(
+                                  context,
+                                ).showSnackBar(SnackBar(content: Text(error)));
+                              }
+                            }
+                          },
+
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+
+                            children: [
+                              Text(
+                                "Masuk ke Akun",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+
+                              SizedBox(width: 8),
+
+                              Icon(Icons.arrow_forward, color: Colors.white),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              //register
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: [
+                  const Text("Belum punya akun?"),
 
                   TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
+
                         MaterialPageRoute(
                           builder: (context) => const RegisterScreen(),
                         ),
                       );
                     },
-
                     child: const Text(
-                      "Belum Punya Akun? Daftar",
-                      style: TextStyle(color: Color(0xFF0D5C3B)),
+                      "Daftar",
+                      style: TextStyle(
+                        color: Color(0xFF004532),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
+
+              const SizedBox(height: 20),
+
+              //bento card
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 140,
+
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+
+                        image: const DecorationImage(
+                          image: AssetImage("assets/images/ekosistem.png"),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+
+                      child: Container(
+                        padding: const EdgeInsets.all(14),
+
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withOpacity(0.5),
+                            ],
+                          ),
+                        ),
+
+                        alignment: Alignment.bottomLeft,
+
+                        child: const Text(
+                          "Ekosistem\nSantri",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 16),
+
+                  Expanded(
+                    child: Container(
+                      height: 140,
+
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+
+                        image: const DecorationImage(
+                          image: AssetImage("assets/image/keuangan.png"),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+
+                      child: Container(
+                        padding: const EdgeInsets.all(14),
+
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withOpacity(0.5),
+                            ],
+                          ),
+                        ),
+
+                        alignment: Alignment.bottomLeft,
+
+                        child: const Text(
+                          "Keuangan\nBerkah",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 40),
+
+              //footer
+              Column(
+                children: [
+                  const Text(
+                    "© 2026 SmartCash Santri",
+                    style: TextStyle(fontSize: 12, color: Colors.black45),
+                  ),
+
+                  const SizedBox(height: 6),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+
+                        child: const Text(
+                          "Privasi",
+                          style: TextStyle(color: Colors.black45, fontSize: 12),
+                        ),
+                      ),
+
+                      const Text("•", style: TextStyle(color: Colors.black45)),
+
+                      TextButton(
+                        onPressed: () {},
+
+                        child: const Text(
+                          "Syarat",
+                          style: TextStyle(color: Colors.black45, fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
